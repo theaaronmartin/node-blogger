@@ -11,6 +11,11 @@ class Post {
     this.body = post.body;
   }
 
+  save() {
+    this.id = 4;
+    console.log('Post saved!');
+  }
+
   static all() {
     var all = [];
 
@@ -29,10 +34,6 @@ class Post {
     }
 
     return null;
-  }
-
-  save() {
-    console.log('Post saved!');
   }
 }
 

@@ -4,7 +4,10 @@ const express = require('express'),
 const router = express.Router();
 
 router.post('/', function(req, res) {
-  res.send('Save posts');
+  var post = new Post(req.body);
+  post.save();
+
+  res.json(post);
 });
 
 router.get('/', function(req, res) {
