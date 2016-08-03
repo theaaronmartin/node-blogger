@@ -8,7 +8,9 @@ router.post('/', function(req, res) {
 });
 
 router.get('/', function(req, res) {
-  res.send('Display all posts');
+  var posts = Post.all();
+
+  res.json(posts);
 });
 
 router.get('/:id', function(req, res) {

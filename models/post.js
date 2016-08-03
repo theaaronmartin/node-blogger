@@ -11,6 +11,16 @@ class Post {
     this.body = post.body;
   }
 
+  static all() {
+    var all = [];
+
+    for (var i = 0; i < posts.length; i++) {
+        all.push(new Post(posts[i]));
+    }
+
+    return all;
+  }
+
   static find(id) {
     for (var i = 0; i < posts.length; i++) {
       if (posts[i].id == id) {
