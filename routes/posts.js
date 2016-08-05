@@ -5,6 +5,7 @@ const router = express.Router();
 
 router.post('/', function(req, res) {
   var post = new Post(req.body);
+  post.user = req.user._id;
 
   post.save(function(err) {
     res.json(post);
@@ -18,9 +19,15 @@ router.get('/', function(req, res) {
 });
 
 router.get('/:id', function(req, res) {
-  Post.findById(req.params.id, function(err, post) {
-    res.json(post);
-  });
+  Post.findById(req.params.id)
+      // Populate referenced user, but only grab the username
+      .populate('user', 'username email')
+      // Populate embedded documents referenced user, but only grab the usernames
+      .populate('comments.user', 'username')
+      // Execute the query and then handle the results in a callback
+      .exec(function(err, post) {
+        res.json(post);
+      });
 });
 
 router.patch('/:id', function(req, res) {
@@ -34,6 +41,20 @@ router.delete('/:id', function(req, res) {
   Post.findByIdAndRemove(req.params.id, function(err, post) {
     res.json(true);
   });
+});
+
+// Embedded Document
+router.post('/:postId/comments', function(req, res) {
+  function onFind(err, post) {
+    function onCommentAdded() {
+      res.json(post);
+    }
+
+    post.addComment(req.user, req.body)
+      .then(onCommentAdded);
+  }
+
+  Post.findById(req.params.postId, onFind);
 });
 
 module.exports = router;
