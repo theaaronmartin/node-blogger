@@ -7,9 +7,12 @@ router.post('/', function(req, res) {
   var post = new Post(req.body);
   post.user = req.user._id;
 
-  post.save(function(err) {
-    res.json(post);
-  });
+  post.save()
+    .then(function(post) {
+      res.json(post);
+    }).catch(function(err) {
+      res.json(err);
+    });
 });
 
 router.get('/', function(req, res) {
@@ -46,12 +49,17 @@ router.delete('/:id', function(req, res) {
 // Embedded Document
 router.post('/:postId/comments', function(req, res) {
   function onFind(err, post) {
-    function onCommentAdded() {
+    function onCommentAdded(post) {
       res.json(post);
     }
 
+    function onError(err) {
+      res.json(err);
+    }
+
     post.addComment(req.user, req.body)
-      .then(onCommentAdded);
+      .then(onCommentAdded)
+      .catch(onError);
   }
 
   Post.findById(req.params.postId, onFind);

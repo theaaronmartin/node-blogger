@@ -9,6 +9,8 @@ const app = express();
 // Database
 mongoose.connect('mongodb://localhost/node-blogger');
 
+mongoose.Promise = global.Promise
+
 const db = mongoose.connection;
 db.on('error', function(err) {
   console.error(err);
