@@ -5,13 +5,17 @@ const router = express.Router();
 
 router.post('/', function(req, res) {
   var post = new Post(req.body);
+
+  // Assign req.user._id to post.user
   post.user = req.user._id;
 
   post.save()
     .then(function(post) {
+      // Respond with our newly created post
       res.json(post);
     }).catch(function(err) {
-      res.json(err);
+      // If there is an error (i.e. validation), return the error
+      res.json(422, err);
     });
 });
 
@@ -54,7 +58,7 @@ router.post('/:postId/comments', function(req, res) {
     }
 
     function onError(err) {
-      res.json(err);
+      res.json(422, err);
     }
 
     post.addComment(req.user, req.body)

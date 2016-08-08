@@ -9,6 +9,7 @@ const app = express();
 // Database
 mongoose.connect('mongodb://localhost/node-blogger');
 
+// Have Mongoose use the ES6's built in promises
 mongoose.Promise = global.Promise
 
 const db = mongoose.connection;
