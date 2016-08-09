@@ -24,7 +24,7 @@ db.once('open', function() {
 app.use(logger('dev'));
 app.use(bodyParser.json());
 
-app.use(function(req, res, next) {
+app.use(/^\/(?!users).*/, function(req, res, next) {
   User.findById(req.get('Authorization'), function(err, user) {
     // If user doesn't exist, respond with Unauthorized
     if (err || user === null) {
