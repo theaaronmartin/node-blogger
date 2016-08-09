@@ -15,7 +15,7 @@ router.post('/', function(req, res) {
       res.json(post);
     }).catch(function(err) {
       // If there is an error (i.e. validation), return the error
-      res.json(422, err);
+      res.status(422).json(err);
     });
 });
 
@@ -58,7 +58,7 @@ router.post('/:postId/comments', function(req, res) {
     }
 
     function onError(err) {
-      res.json(422, err);
+      res.status(422).json(err);
     }
 
     post.addComment(req.user, req.body)
