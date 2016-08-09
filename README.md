@@ -2,7 +2,7 @@
 
 Install `npm` dependencies:
 ```sh
-npm nstall
+npm install
 ```
 
 Install `nodemon` globally for hot reloading:
