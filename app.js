@@ -1,5 +1,6 @@
 const express = require('express'),
       logger = require('morgan'),
+      cors = require('cors'),
       bodyParser = require('body-parser'),
       mongoose = require('mongoose'),
       User = require('./models/user');
@@ -22,6 +23,7 @@ db.once('open', function() {
 
 // Middleware
 app.use(logger('dev'));
+app.use(cors());
 app.use(bodyParser.json());
 
 app.use(/^\/(?!users).*/, function(req, res, next) {
