@@ -38,7 +38,7 @@ app.use(/^\/(?!users).*/, function(req, res, next) {
       res.status(401).send('You\'re not authorized');
       return;
     }
-console.log(user);
+    
     // Else add user to req.user and go to next route
     req.user = user;
     next();
