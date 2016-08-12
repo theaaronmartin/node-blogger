@@ -27,13 +27,18 @@ app.use(cors());
 app.use(bodyParser.json());
 
 app.use(/^\/(?!users).*/, function(req, res, next) {
-  User.findById(req.get('Authorization'), function(err, user) {
+  if (!req.body.user) {
+    next();
+    return;
+  }
+
+  User.findOne({ username: req.body.user.username }, function(err, user) {
     // If user doesn't exist, respond with Unauthorized
     if (err || user === null) {
-      res.send(401, 'You\'re not authorized');
+      res.status(401).send('You\'re not authorized');
       return;
     }
-
+console.log(user);
     // Else add user to req.user and go to next route
     req.user = user;
     next();
