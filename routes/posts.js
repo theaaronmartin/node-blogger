@@ -54,7 +54,18 @@ router.delete('/:id', function(req, res) {
 router.post('/:postId/comments', function(req, res) {
   function onFind(err, post) {
     function onCommentAdded(post) {
-      res.json(post);
+      console.log('=> 1');
+      Post.populate(post, [
+        { path: 'comments.user', select: 'username' }
+      ])
+      .then(function(post) {
+        console.log('=> 2');
+        res.json(post);
+      })
+      .catch(function(err) {
+        console.log('=> 3');
+        res.status(422).json(err);
+      });
     }
 
     function onError(err) {
