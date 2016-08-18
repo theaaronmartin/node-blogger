@@ -20,7 +20,9 @@ router.post('/', function(req, res) {
 });
 
 router.get('/', function(req, res) {
-  Post.find({}, function(err, posts) {
+  Post.find({})
+  .populate('user', 'username')
+  .exec(function(err, posts) {
     res.json(posts);
   });
 });
